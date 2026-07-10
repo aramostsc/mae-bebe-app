@@ -75,6 +75,70 @@ export function getDailyTip(date = new Date()) {
   return tips[dayOfYear % tips.length];
 }
 
+export function getDailyReflection(weeksPostpartum: number, babyAgeMonths: number) {
+  if (weeksPostpartum < 6) {
+    return {
+      title: 'Hoje não precisa de ser perfeito',
+      body: 'O início pode ser intenso e confuso. O essencial para hoje é recuperação, alimento, água, descanso possível e presença. Um passo pequeno também conta.',
+    };
+  }
+
+  if (babyAgeMonths < 6) {
+    return {
+      title: 'Estás a aprender o teu bebé',
+      body: 'Ainda há muito desconhecido, mas já há sinais que começas a reconhecer. Confia no que observas e usa a app para organizar o que pesa na cabeça.',
+    };
+  }
+
+  if (babyAgeMonths < 12) {
+    return {
+      title: 'Uma fase nova, sem pressa',
+      body: 'Com mais movimento, alimentos e descobertas, é normal sentir que tudo muda depressa. Escolhe uma prioridade para hoje e deixa o resto respirar.',
+    };
+  }
+
+  return {
+    title: 'O caminho vai-se construindo',
+    body: 'O teu bebé está a ganhar autonomia e tu também estás a crescer nesta maternidade. Não precisas de controlar tudo para estares presente.',
+  };
+}
+
+export function getTodayAction(weeksPostpartum: number, babyAgeMonths: number, hasUpcomingEvents: boolean) {
+  if (hasUpcomingEvents) {
+    return {
+      title: 'Olhar para a agenda',
+      body: 'Vê o próximo compromisso e deixa uma nota simples do que queres levar ou perguntar.',
+      target: 'Calendar' as const,
+      cta: 'Abrir agenda',
+    };
+  }
+
+  if (weeksPostpartum < 6) {
+    return {
+      title: 'Cuidar do básico',
+      body: 'Bebe água, come algo simples e faz três respirações lentas antes da próxima tarefa.',
+      target: 'Plans' as const,
+      cta: 'Ver plano suave',
+    };
+  }
+
+  if (babyAgeMonths >= 3) {
+    return {
+      title: 'Guardar um momento',
+      body: 'Regista uma foto ou nota curta de algo pequeno que tenha acontecido hoje.',
+      target: 'Memories' as const,
+      cta: 'Adicionar memória',
+    };
+  }
+
+  return {
+    title: 'Escolher uma orientação',
+    body: 'Vê os planos e escolhe apenas uma ideia útil para o dia. Não precisa de ser mais do que isso.',
+    target: 'Plans' as const,
+    cta: 'Ver planos',
+  };
+}
+
 export function getTrainingPlan(monthsPostpartum: number, weeksPostpartum: number) {
   if (weeksPostpartum < 6) {
     return {
