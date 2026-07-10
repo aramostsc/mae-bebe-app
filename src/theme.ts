@@ -9,6 +9,10 @@ export const colors = {
   muted: '#75686C',
   border: '#E8DAD7',
   warning: '#9D5A2E',
+  night: '#1F2422',
+  nightSurface: '#2B332F',
+  nightText: '#F6EEE9',
+  nightMuted: '#C9BDB8',
 };
 
 export const spacing = {

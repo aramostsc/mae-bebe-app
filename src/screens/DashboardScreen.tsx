@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Card } from '../components/Card';
+import { CareLogPanel } from '../components/CareLogPanel';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { Screen } from '../components/Screen';
 import { Body, Caption, Heading, Title } from '../components/Typography';
@@ -12,7 +13,6 @@ import { loadCareLogs, saveCareLogs } from '../services/careLogService';
 import { loadEventsForBaby } from '../services/eventService';
 import { colors, radii, spacing } from '../theme';
 import { AppProfiles, CalendarEvent, CareLog, CareLogType, MainTabParamList } from '../types';
-import { careLogLabels, formatCareLogTime, getLatestCareLogByType } from '../utils/careLogs';
 import { differenceInMonths, differenceInWeeks, formatBabyAge, getPostpartumLabel } from '../utils/date';
 import { createId } from '../utils/id';
 
@@ -24,6 +24,7 @@ export function DashboardScreen({ profiles }: Props) {
   const navigation = useNavigation<BottomTabNavigationProp<MainTabParamList>>();
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [careLogs, setCareLogs] = useState<CareLog[]>([]);
+  const [nightCareMode, setNightCareMode] = useState(false);
   const babyAgeMonths = differenceInMonths(profiles.baby.birthDate);
   const postpartumWeeks = differenceInWeeks(profiles.mother.deliveryDate);
   const tip = getDailyTip();
@@ -81,23 +82,12 @@ export function DashboardScreen({ profiles }: Props) {
         </View>
       </Card>
 
-      <Card>
-        <Caption>Registo rápido</Caption>
-        <Heading>Últimos cuidados</Heading>
-        <Body>Um toque chega. Serve para aliviar a memória, não para controlar tudo.</Body>
-        <View style={styles.careGrid}>
-          {(['mamada', 'fralda', 'sono', 'medicacao'] as CareLogType[]).map((type) => {
-            const latestLog = getLatestCareLogByType(careLogs, type);
-
-            return (
-              <View key={type} style={styles.careItem}>
-                <PrimaryButton label={careLogLabels[type]} onPress={() => addCareLog(type)} variant="secondary" />
-                <Caption>{latestLog ? `Último: ${formatCareLogTime(latestLog.createdAt)}` : 'Ainda sem registo'}</Caption>
-              </View>
-            );
-          })}
-        </View>
-      </Card>
+      <CareLogPanel
+        logs={careLogs}
+        nightMode={nightCareMode}
+        onAdd={addCareLog}
+        onToggleNightMode={() => setNightCareMode((value) => !value)}
+      />
 
       <View style={styles.summaryRow}>
         <View style={styles.summaryItem}>
@@ -162,13 +152,6 @@ const styles = StyleSheet.create({
   },
   cardAction: {
     marginTop: spacing.md,
-  },
-  careGrid: {
-    gap: spacing.sm,
-    marginTop: spacing.md,
-  },
-  careItem: {
-    gap: spacing.xs,
   },
   summaryRow: {
     flexDirection: 'row',
