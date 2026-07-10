@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "Mae & Bebe",
+    "slug": "mae-bebe-app",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "pt.maebebe.app"
+    },
+    "android": {
+      "package": "pt.maebebe.app",
+      "permissions": [
+        "CAMERA",
+        "READ_MEDIA_IMAGES",
+        "POST_NOTIFICATIONS"
+      ]
+    },
+    "plugins": [
+      "expo-image-picker",
+      "expo-camera",
+      "expo-notifications"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "local-mvp"
+      }
+    }
+  }
+}
