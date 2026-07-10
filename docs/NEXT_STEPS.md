@@ -39,4 +39,4 @@ Antes de adicionar backend, melhorar o dashboard e o tom da experiência. A app 
 2. Criar conteúdo de dicas mais contextual por fase.
 3. Melhorar formulários com seletores de data.
 4. Criar uma primeira identidade visual mais consistente.
-5. Melhorar os planos com orientação do dia e biblioteca de conteúdos.
+5. Melhorar formulários com seletores de data.

@@ -206,3 +206,36 @@ export function getBabyFoodPlan(ageMonths: number) {
     items: ['Alimentação familiar adaptada', 'Variedade de cores, texturas e grupos alimentares', 'Promover autonomia com segurança', 'Manter atenção a sal, açúcar e risco de engasgamento'],
   };
 }
+
+export function getPlanOrientation(area: 'treino' | 'mae' | 'bebe' | 'dicas', breastfeeding: boolean, babyAgeMonths: number) {
+  if (area === 'treino') {
+    return {
+      title: 'Escolhe só um movimento seguro',
+      body: 'Hoje não é preciso fazer um treino completo. Escolhe uma proposta suave, observa o corpo e pára se algo não parecer bem.',
+    };
+  }
+
+  if (area === 'mae') {
+    return {
+      title: breastfeeding ? 'Água e comida por perto' : 'Uma refeição simples já ajuda',
+      body: breastfeeding
+        ? 'Se estás a amamentar, tenta deixar água e um snack fácil num lugar visível. O objetivo é cuidar de ti sem complicar.'
+        : 'Escolhe uma refeição simples com proteína, hidratos e legumes. Não precisa de ser perfeita para ser nutritiva.',
+    };
+  }
+
+  if (area === 'bebe') {
+    return {
+      title: babyAgeMonths < 6 ? 'Leite e sinais do bebé' : 'Explorar com calma',
+      body:
+        babyAgeMonths < 6
+          ? 'Nesta fase, a base é leite materno ou fórmula conforme orientação. Observa sinais, fraldas e conforto geral.'
+          : 'Na alimentação do bebé, a calma conta. Uma textura, um alimento simples, uma observação. Não precisa de pressa.',
+    };
+  }
+
+  return {
+    title: 'Uma ideia chega',
+    body: 'Lê uma dica e escolhe apenas uma coisa pequena para experimentar hoje. A app deve aliviar, não acrescentar pressão.',
+  };
+}

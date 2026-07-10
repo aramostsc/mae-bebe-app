@@ -8,11 +8,12 @@ import { Body, Caption, Heading, Title } from '../components/Typography';
 import {
   getBabyFoodPlan,
   getMotherNutrition,
+  getPlanOrientation,
   getTrainingPlan,
   safetyStopNotice,
   tips,
 } from '../data/mockContent';
-import { colors, spacing } from '../theme';
+import { colors, radii, spacing } from '../theme';
 import { AppProfiles } from '../types';
 import { differenceInMonths, differenceInWeeks } from '../utils/date';
 
@@ -22,6 +23,13 @@ type Props = {
 
 type PlanArea = 'treino' | 'mae' | 'bebe' | 'dicas';
 
+const areaLabels: Record<PlanArea, string> = {
+  treino: 'Movimento',
+  mae: 'Cuidar da mãe',
+  bebe: 'Cuidar do bebé',
+  dicas: 'Ideias leves',
+};
+
 export function PlansScreen({ profiles }: Props) {
   const [area, setArea] = useState<PlanArea>('treino');
   const postpartumWeeks = differenceInWeeks(profiles.mother.deliveryDate);
@@ -30,24 +38,36 @@ export function PlansScreen({ profiles }: Props) {
   const trainingPlan = getTrainingPlan(postpartumMonths, postpartumWeeks);
   const motherNutrition = getMotherNutrition(profiles.mother.breastfeeding);
   const babyFood = getBabyFoodPlan(babyAgeMonths);
+  const orientation = getPlanOrientation(area, profiles.mother.breastfeeding, babyAgeMonths);
 
   return (
     <Screen>
       <View style={styles.header}>
         <Title>Planos</Title>
-        <Body>Orientações simples para a mãe e para o bebé, sempre com espaço para validação profissional.</Body>
+        <Body>Uma orientação de cada vez. O resto fica guardado para quando fizer sentido.</Body>
       </View>
 
       <SelectChips
         value={area}
         onChange={setArea}
         options={[
-          { label: 'Treino', value: 'treino' },
+          { label: 'Movimento', value: 'treino' },
           { label: 'Mãe', value: 'mae' },
           { label: 'Bebé', value: 'bebe' },
           { label: 'Dicas', value: 'dicas' },
         ]}
       />
+
+      <View style={styles.todayBox}>
+        <Caption>Orientação de hoje · {areaLabels[area]}</Caption>
+        <Heading>{orientation.title}</Heading>
+        <Body>{orientation.body}</Body>
+      </View>
+
+      <View style={styles.sectionHeader}>
+        <Heading>Biblioteca</Heading>
+        <Caption>Consulta quando precisares, sem obrigação de fazer tudo.</Caption>
+      </View>
 
       {area === 'treino' ? (
         <>
@@ -58,9 +78,11 @@ export function PlansScreen({ profiles }: Props) {
           </Card>
           <Card>
             <Heading>Plano base</Heading>
-            {trainingPlan.items.map((item) => (
-              <Body key={item}>• {item}</Body>
-            ))}
+            <View style={styles.list}>
+              {trainingPlan.items.map((item) => (
+                <Body key={item}>• {item}</Body>
+              ))}
+            </View>
           </Card>
           <Card>
             <Heading>Segurança primeiro</Heading>
@@ -80,7 +102,7 @@ export function PlansScreen({ profiles }: Props) {
           <Card>
             <Heading>Aviso</Heading>
             <Body style={styles.warning}>
-              Consulte nutricionista ou médico em caso de dúvidas, anemia, perda de peso excessiva, diabetes,
+              Consulta nutricionista ou médico em caso de dúvidas, anemia, perda de peso excessiva, diabetes,
               alergias, hipertensão ou outras condições.
             </Body>
           </Card>
@@ -92,15 +114,17 @@ export function PlansScreen({ profiles }: Props) {
           <Card>
             <Caption>Idade atual: {babyAgeMonths} meses</Caption>
             <Heading>{babyFood.phase}</Heading>
-            {babyFood.items.map((item) => (
-              <Body key={item}>• {item}</Body>
-            ))}
+            <View style={styles.list}>
+              {babyFood.items.map((item) => (
+                <Body key={item}>• {item}</Body>
+              ))}
+            </View>
           </Card>
           <Card>
             <Heading>Aviso de segurança</Heading>
             <Body style={styles.warning}>
               Atenção a engasgamento, alergias, mel antes dos 12 meses, excesso de sal/açúcar e alimentos perigosos.
-              Confirme sempre dúvidas com o pediatra.
+              Confirma sempre dúvidas com o pediatra.
             </Body>
           </Card>
         </>
@@ -122,6 +146,21 @@ export function PlansScreen({ profiles }: Props) {
 const styles = StyleSheet.create({
   header: {
     gap: spacing.sm,
+  },
+  todayBox: {
+    backgroundColor: colors.surfaceAlt,
+    borderColor: colors.border,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    gap: spacing.sm,
+    padding: spacing.lg,
+  },
+  sectionHeader: {
+    gap: spacing.xs,
+  },
+  list: {
+    gap: spacing.xs,
+    marginTop: spacing.sm,
   },
   warning: {
     color: colors.warning,
