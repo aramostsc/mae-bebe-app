@@ -48,6 +48,7 @@ export type PhotoMemory = {
   createdAt: string;
   babyAgeMonth: number;
   note?: string;
+  mood?: 'marco' | 'ternura' | 'rotina' | 'descoberta' | 'familia';
 };
 
 export type TipCategory =

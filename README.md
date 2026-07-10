@@ -8,7 +8,7 @@ Aplicação mobile em Expo + React Native + TypeScript para apoiar mães no pós
 - Dashboard com idade do bebé, tempo desde o parto, dica diária e próximos eventos.
 - Área de planos com treino pós-parto, nutrição da mãe, alimentação do bebé e dicas.
 - Calendário interno com criar, editar e apagar eventos.
-- Memórias com câmara/galeria e organização por mês de idade.
+- Memórias com câmara/galeria, tipos de momento e organização por mês de idade.
 - Agenda com vista mensal, eventos manuais e aniversários mensais automáticos.
 - Definições com edição de perfis, notificações locais, aviso de responsabilidade e reset local.
 
