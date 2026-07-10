@@ -6,7 +6,7 @@ import { FormField } from '../components/FormField';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { Screen } from '../components/Screen';
 import { SelectChips } from '../components/SelectChips';
-import { Body, Heading, Title } from '../components/Typography';
+import { Body, Caption, Heading, Title } from '../components/Typography';
 import { healthDisclaimer } from '../data/mockContent';
 import { clearCareLogs } from '../services/careLogService';
 import { clearEvents } from '../services/eventService';
@@ -126,11 +126,42 @@ export function SettingsScreen({ profiles, onProfilesChange }: Props) {
       </Card>
 
       <Card>
-        <Heading>Notificações</Heading>
-        <Body>Permitir lembretes locais para eventos internos da app.</Body>
-        <View style={styles.buttonGap}>
-          <PrimaryButton label="Gerir permissões" onPress={handleNotifications} variant="secondary" />
+        <Caption>Privacidade</Caption>
+        <Heading>Dados neste dispositivo</Heading>
+        <View style={styles.privacyList}>
+          <Body>• Perfis da mãe e do bebé.</Body>
+          <Body>• Agenda, marcos e lembretes.</Body>
+          <Body>• Registos rápidos de cuidados.</Body>
+          <Body>• Memórias, fotos e notas.</Body>
         </View>
+        <Caption>Nesta fase do MVP, estes dados ficam guardados localmente. Ainda não há conta, cloud ou sincronização familiar.</Caption>
+      </Card>
+
+      <Card>
+        <Caption>Permissões</Caption>
+        <Heading>O que a app pode pedir</Heading>
+        <View style={styles.privacyList}>
+          <Body>• Câmara e galeria: apenas quando adicionas uma memória.</Body>
+          <Body>• Notificações: apenas para lembretes locais.</Body>
+        </View>
+        <View style={styles.buttonGap}>
+          <PrimaryButton label="Gerir notificações" onPress={handleNotifications} variant="secondary" />
+        </View>
+      </Card>
+
+      <Card>
+        <Caption>Compromisso</Caption>
+        <Heading>O que evitamos</Heading>
+        <View style={styles.privacyList}>
+          <Body>• Não usamos anúncios nesta experiência.</Body>
+          <Body>• Não vendemos ansiedade com alertas agressivos.</Body>
+          <Body>• Não enviamos fotos ou dados do bebé para cloud sem decisão explícita futura.</Body>
+        </View>
+      </Card>
+
+      <Card>
+        <Heading>Exportação futura</Heading>
+        <Body>Exportar dados, relatórios de cuidados e álbuns de memórias está preparado para uma fase futura.</Body>
       </Card>
 
       <Card>
@@ -139,13 +170,8 @@ export function SettingsScreen({ profiles, onProfilesChange }: Props) {
       </Card>
 
       <Card>
-        <Heading>Exportação</Heading>
-        <Body>Exportar dados e fotos está preparado para uma fase futura.</Body>
-      </Card>
-
-      <Card>
-        <Heading>Dados locais</Heading>
-        <Body>Perfis, agenda, cuidados e memórias ficam guardados localmente neste dispositivo nesta fase do MVP.</Body>
+        <Heading>Apagar dados locais</Heading>
+        <Body>Use esta opção para testar a app desde o início ou apagar dados guardados neste dispositivo.</Body>
         <View style={styles.buttonGap}>
           <PrimaryButton label="Apagar dados e recomeçar" onPress={handleReset} variant="secondary" />
         </View>
@@ -169,5 +195,9 @@ const styles = StyleSheet.create({
   },
   fieldGroup: {
     gap: spacing.sm,
+  },
+  privacyList: {
+    gap: spacing.sm,
+    marginVertical: spacing.md,
   },
 });

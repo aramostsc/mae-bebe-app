@@ -11,7 +11,7 @@ Aplicação mobile em Expo + React Native + TypeScript para apoiar mães no pós
 - Calendário interno com criar, editar e apagar eventos.
 - Memórias com câmara/galeria, tipos de momento e organização por mês de idade.
 - Agenda com vista mensal, eventos manuais e aniversários mensais automáticos.
-- Definições com edição de perfis, notificações locais, aviso de responsabilidade e reset local.
+- Definições com edição de perfis, centro de privacidade, notificações locais, aviso de responsabilidade e reset local.
 
 ## Arquitetura
 

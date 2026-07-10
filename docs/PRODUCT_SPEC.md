@@ -18,7 +18,7 @@ Mães no pós-parto, mães recentes e famílias que querem organizar rotinas, me
 4. Área de planos com orientação do dia, treino pós-parto, nutrição da mãe, alimentação do bebé e dicas.
 5. Calendário interno com vista mensal, eventos editáveis e aniversários mensais automáticos.
 6. Memórias com fotos, notas, tipos de momento e organização por mês de idade.
-7. Definições, notificações locais e aviso de responsabilidade.
+7. Definições com centro de privacidade, notificações locais e aviso de responsabilidade.
 
 ## Princípios de produto
 
