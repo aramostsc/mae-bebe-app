@@ -51,6 +51,15 @@ export type PhotoMemory = {
   mood?: 'marco' | 'ternura' | 'rotina' | 'descoberta' | 'familia';
 };
 
+export type CareLogType = 'mamada' | 'fralda' | 'sono' | 'medicacao';
+
+export type CareLog = {
+  id: string;
+  type: CareLogType;
+  createdAt: string;
+  note?: string;
+};
+
 export type TipCategory =
   | 'mae'
   | 'bebe'

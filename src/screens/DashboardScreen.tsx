@@ -8,10 +8,13 @@ import { PrimaryButton } from '../components/PrimaryButton';
 import { Screen } from '../components/Screen';
 import { Body, Caption, Heading, Title } from '../components/Typography';
 import { getDailyReflection, getDailyTip, getTodayAction, healthDisclaimer } from '../data/mockContent';
+import { loadCareLogs, saveCareLogs } from '../services/careLogService';
 import { loadEventsForBaby } from '../services/eventService';
 import { colors, radii, spacing } from '../theme';
-import { AppProfiles, CalendarEvent, MainTabParamList } from '../types';
+import { AppProfiles, CalendarEvent, CareLog, CareLogType, MainTabParamList } from '../types';
+import { careLogLabels, formatCareLogTime, getLatestCareLogByType } from '../utils/careLogs';
 import { differenceInMonths, differenceInWeeks, formatBabyAge, getPostpartumLabel } from '../utils/date';
+import { createId } from '../utils/id';
 
 type Props = {
   profiles: AppProfiles;
@@ -20,6 +23,7 @@ type Props = {
 export function DashboardScreen({ profiles }: Props) {
   const navigation = useNavigation<BottomTabNavigationProp<MainTabParamList>>();
   const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [careLogs, setCareLogs] = useState<CareLog[]>([]);
   const babyAgeMonths = differenceInMonths(profiles.baby.birthDate);
   const postpartumWeeks = differenceInWeeks(profiles.mother.deliveryDate);
   const tip = getDailyTip();
@@ -32,10 +36,25 @@ export function DashboardScreen({ profiles }: Props) {
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       loadEventsForBaby(profiles.baby).then((items) => setEvents(items.slice(0, 2)));
+      loadCareLogs().then(setCareLogs);
     });
 
     return unsubscribe;
   }, [navigation, profiles.baby]);
+
+  async function addCareLog(type: CareLogType) {
+    const nextLogs = [
+      {
+        id: createId('care'),
+        type,
+        createdAt: new Date().toISOString(),
+      },
+      ...careLogs,
+    ].slice(0, 40);
+
+    setCareLogs(nextLogs);
+    await saveCareLogs(nextLogs);
+  }
 
   return (
     <Screen>
@@ -59,6 +78,24 @@ export function DashboardScreen({ profiles }: Props) {
         <Body>{todayAction.body}</Body>
         <View style={styles.cardAction}>
           <PrimaryButton label={todayAction.cta} onPress={() => navigation.navigate(todayAction.target)} />
+        </View>
+      </Card>
+
+      <Card>
+        <Caption>Registo rápido</Caption>
+        <Heading>Últimos cuidados</Heading>
+        <Body>Um toque chega. Serve para aliviar a memória, não para controlar tudo.</Body>
+        <View style={styles.careGrid}>
+          {(['mamada', 'fralda', 'sono', 'medicacao'] as CareLogType[]).map((type) => {
+            const latestLog = getLatestCareLogByType(careLogs, type);
+
+            return (
+              <View key={type} style={styles.careItem}>
+                <PrimaryButton label={careLogLabels[type]} onPress={() => addCareLog(type)} variant="secondary" />
+                <Caption>{latestLog ? `Último: ${formatCareLogTime(latestLog.createdAt)}` : 'Ainda sem registo'}</Caption>
+              </View>
+            );
+          })}
         </View>
       </Card>
 
@@ -125,6 +162,13 @@ const styles = StyleSheet.create({
   },
   cardAction: {
     marginTop: spacing.md,
+  },
+  careGrid: {
+    gap: spacing.sm,
+    marginTop: spacing.md,
+  },
+  careItem: {
+    gap: spacing.xs,
   },
   summaryRow: {
     flexDirection: 'row',

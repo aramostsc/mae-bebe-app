@@ -8,6 +8,7 @@ import { Screen } from '../components/Screen';
 import { SelectChips } from '../components/SelectChips';
 import { Body, Heading, Title } from '../components/Typography';
 import { healthDisclaimer } from '../data/mockContent';
+import { clearCareLogs } from '../services/careLogService';
 import { clearEvents } from '../services/eventService';
 import { requestNotificationPermission } from '../services/notificationService';
 import { clearPhotos } from '../services/photoService';
@@ -71,13 +72,13 @@ export function SettingsScreen({ profiles, onProfilesChange }: Props) {
   }
 
   function handleReset() {
-    Alert.alert('Recomeçar app?', 'Isto apaga perfis, eventos e fotos guardadas localmente neste dispositivo.', [
+    Alert.alert('Recomeçar app?', 'Isto apaga perfis, eventos, cuidados e fotos guardadas localmente neste dispositivo.', [
       { text: 'Cancelar', style: 'cancel' },
       {
         text: 'Apagar',
         style: 'destructive',
         onPress: async () => {
-          await Promise.all([clearProfiles(), clearEvents(), clearPhotos()]);
+          await Promise.all([clearProfiles(), clearEvents(), clearPhotos(), clearCareLogs()]);
           onProfilesChange(null);
         },
       },
@@ -144,7 +145,7 @@ export function SettingsScreen({ profiles, onProfilesChange }: Props) {
 
       <Card>
         <Heading>Dados locais</Heading>
-        <Body>Use esta opção para testar a app desde o início neste computador ou telemóvel.</Body>
+        <Body>Perfis, agenda, cuidados e memórias ficam guardados localmente neste dispositivo nesta fase do MVP.</Body>
         <View style={styles.buttonGap}>
           <PrimaryButton label="Apagar dados e recomeçar" onPress={handleReset} variant="secondary" />
         </View>
