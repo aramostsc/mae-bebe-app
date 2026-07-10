@@ -12,7 +12,7 @@ Mães no pós-parto, mães recentes e famílias que querem organizar rotinas, me
 
 ## MVP
 
-1. Onboarding com perfis da mãe e do bebé.
+1. Onboarding em passos com perfis da mãe e do bebé.
 2. Dashboard com idade do bebé, tempo desde o parto, dica diária e próximos eventos.
 3. Área de planos com orientação do dia, treino pós-parto, nutrição da mãe, alimentação do bebé e dicas.
 4. Calendário interno com vista mensal, eventos editáveis e aniversários mensais automáticos.
