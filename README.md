@@ -12,7 +12,7 @@ Aplicação mobile em Expo + React Native + TypeScript para apoiar mães no pós
 - Calendário interno com criar, editar e apagar eventos.
 - Galeria local com câmara/galeria e organização por mês de idade.
 - Dicas por categoria.
-- Definições com edição de perfis, notificações locais e aviso de responsabilidade.
+- Definições com edição de perfis, notificações locais, aviso de responsabilidade e reset local.
 
 ## Arquitetura
 
@@ -24,7 +24,7 @@ src/
   screens/       Telas da aplicação
   services/      Persistência local, notificações e futura camada cloud
   types/         Tipos partilhados
-  utils/         Cálculos de datas e utilitários
+  utils/         Cálculos de datas, validações e utilitários
 ```
 
 ## Dependências principais
@@ -45,7 +45,13 @@ npm install
 npm run start
 ```
 
-Depois, abra no Expo Go ou num emulador Android. O projeto prioriza Android, mantendo compatibilidade iOS.
+Para correr no browser:
+
+```bash
+npm run web
+```
+
+Depois, abra no Expo Go, num emulador Android ou no navegador. O projeto prioriza Android, mantendo compatibilidade iOS e suporte web para testes.
 
 ## Verificação
 
