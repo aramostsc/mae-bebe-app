@@ -37,6 +37,6 @@ Antes de adicionar backend, melhorar o dashboard e o tom da experiência. A app 
 
 1. Redesenhar o dashboard com foco emocional e ação do dia.
 2. Criar conteúdo de dicas mais contextual por fase.
-3. Gerar eventos mensais do bebé automaticamente.
-4. Melhorar formulários com seletores de data.
-5. Criar uma primeira identidade visual mais consistente.
+3. Melhorar formulários com seletores de data.
+4. Criar uma primeira identidade visual mais consistente.
+5. Tornar o fluxo de memórias mais rápido e emocional.

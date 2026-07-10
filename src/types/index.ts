@@ -39,6 +39,7 @@ export type CalendarEvent = {
   date: string;
   type: EventType;
   notes?: string;
+  source?: 'user' | 'system';
 };
 
 export type PhotoMemory = {

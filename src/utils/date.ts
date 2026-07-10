@@ -48,3 +48,20 @@ export function getPostpartumLabel(deliveryDate: string) {
 export function toInputDate(date = new Date()) {
   return date.toISOString().slice(0, 10);
 }
+
+export function addMonthsToInputDate(inputDate: string, months: number) {
+  const date = parseDate(inputDate);
+  const day = date.getDate();
+  const next = new Date(date);
+  next.setMonth(next.getMonth() + months);
+
+  if (next.getDate() !== day) {
+    next.setDate(0);
+  }
+
+  return toInputDate(next);
+}
+
+export function isTodayOrFuture(inputDate: string, today = new Date()) {
+  return inputDate >= toInputDate(today);
+}

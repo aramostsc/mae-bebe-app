@@ -8,7 +8,7 @@ import { PrimaryButton } from '../components/PrimaryButton';
 import { Screen } from '../components/Screen';
 import { Body, Caption, Heading, Title } from '../components/Typography';
 import { getDailyReflection, getDailyTip, getTodayAction, healthDisclaimer } from '../data/mockContent';
-import { loadEvents } from '../services/eventService';
+import { loadEventsForBaby } from '../services/eventService';
 import { colors, radii, spacing } from '../theme';
 import { AppProfiles, CalendarEvent, MainTabParamList } from '../types';
 import { differenceInMonths, differenceInWeeks, formatBabyAge, getPostpartumLabel } from '../utils/date';
@@ -31,11 +31,11 @@ export function DashboardScreen({ profiles }: Props) {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      loadEvents().then((items) => setEvents(items.sort((a, b) => a.date.localeCompare(b.date)).slice(0, 2)));
+      loadEventsForBaby(profiles.baby).then((items) => setEvents(items.slice(0, 2)));
     });
 
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, profiles.baby]);
 
   return (
     <Screen>
