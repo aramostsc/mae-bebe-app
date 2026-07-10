@@ -65,3 +65,47 @@ export function addMonthsToInputDate(inputDate: string, months: number) {
 export function isTodayOrFuture(inputDate: string, today = new Date()) {
   return inputDate >= toInputDate(today);
 }
+
+export function getMonthKey(date = new Date()) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+}
+
+export function addMonthsToMonthKey(monthKey: string, offset: number) {
+  const [year, month] = monthKey.split('-').map(Number);
+  const date = new Date(year, month - 1 + offset, 1, 12);
+  return getMonthKey(date);
+}
+
+export function getMonthLabel(monthKey: string) {
+  const [year, month] = monthKey.split('-').map(Number);
+  const date = new Date(year, month - 1, 1, 12);
+  const label = date.toLocaleDateString('pt-PT', { month: 'long', year: 'numeric' });
+  return label.charAt(0).toUpperCase() + label.slice(1);
+}
+
+export function getCalendarDays(monthKey: string) {
+  const [year, month] = monthKey.split('-').map(Number);
+  const firstDay = new Date(year, month - 1, 1, 12);
+  const firstWeekday = (firstDay.getDay() + 6) % 7;
+  const daysInMonth = new Date(year, month, 0, 12).getDate();
+  const cells: Array<{ date: string; day: number; inMonth: boolean }> = [];
+
+  for (let index = 0; index < firstWeekday; index += 1) {
+    const date = new Date(year, month - 1, 1 - (firstWeekday - index), 12);
+    cells.push({ date: toInputDate(date), day: date.getDate(), inMonth: false });
+  }
+
+  for (let day = 1; day <= daysInMonth; day += 1) {
+    const date = new Date(year, month - 1, day, 12);
+    cells.push({ date: toInputDate(date), day, inMonth: true });
+  }
+
+  while (cells.length % 7 !== 0) {
+    const last = parseDate(cells[cells.length - 1].date);
+    const date = new Date(last);
+    date.setDate(last.getDate() + 1);
+    cells.push({ date: toInputDate(date), day: date.getDate(), inMonth: false });
+  }
+
+  return cells;
+}

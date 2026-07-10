@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 
 import { Card } from '../components/Card';
 import { FormField } from '../components/FormField';
+import { MonthCalendar } from '../components/MonthCalendar';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { Screen } from '../components/Screen';
 import { SelectChips } from '../components/SelectChips';
@@ -10,8 +11,9 @@ import { Body, Caption, Heading, Title } from '../components/Typography';
 import { loadEventsForBaby, saveEvents } from '../services/eventService';
 import { colors, spacing } from '../theme';
 import { BabyProfile, CalendarEvent, EventType } from '../types';
-import { isFutureDate, isValidInputDate } from '../utils/validation';
+import { addMonthsToMonthKey, getMonthKey, getMonthLabel, toInputDate } from '../utils/date';
 import { createId } from '../utils/id';
+import { isFutureDate, isValidInputDate } from '../utils/validation';
 
 type Props = {
   baby: BabyProfile;
@@ -26,10 +28,17 @@ export function CalendarScreen({ baby }: Props) {
   const [date, setDate] = useState('');
   const [type, setType] = useState<EventType>(defaultType);
   const [notes, setNotes] = useState('');
+  const [visibleMonth, setVisibleMonth] = useState(getMonthKey());
+  const [selectedDate, setSelectedDate] = useState(toInputDate());
 
   useEffect(() => {
     loadEventsForBaby(baby).then(setEvents);
   }, [baby]);
+
+  const selectedDateEvents = useMemo(
+    () => events.filter((event) => event.date === selectedDate),
+    [events, selectedDate],
+  );
 
   async function persist(nextEvents: CalendarEvent[]) {
     const sorted = nextEvents.sort((a, b) => a.date.localeCompare(b.date));
@@ -60,6 +69,11 @@ export function CalendarScreen({ baby }: Props) {
     }
   }
 
+  function handleSelectDate(nextDate: string) {
+    setSelectedDate(nextDate);
+    setDate(nextDate);
+  }
+
   async function handleSave() {
     if (!title.trim() || !date) {
       Alert.alert('Campos em falta', 'Adicione título e data no formato AAAA-MM-DD.');
@@ -86,6 +100,8 @@ export function CalendarScreen({ baby }: Props) {
     };
 
     await persist(editingId ? events.map((item) => (item.id === editingId ? event : item)) : [...events, event]);
+    setSelectedDate(date);
+    setVisibleMonth(getMonthKey(new Date(`${date}T12:00:00`)));
     resetForm();
   }
 
@@ -99,6 +115,8 @@ export function CalendarScreen({ baby }: Props) {
     setDate(event.date);
     setType(event.type);
     setNotes(event.notes ?? '');
+    setSelectedDate(event.date);
+    setVisibleMonth(getMonthKey(new Date(`${event.date}T12:00:00`)));
   }
 
   async function handleDelete(eventId: string) {
@@ -111,6 +129,40 @@ export function CalendarScreen({ baby }: Props) {
         <Title>Agenda</Title>
         <Body>Um lugar simples para compromissos, vacinas, marcos e pequenos lembretes.</Body>
       </View>
+
+      <Card>
+        <View style={styles.monthHeader}>
+          <PrimaryButton label="‹" onPress={() => setVisibleMonth(addMonthsToMonthKey(visibleMonth, -1))} variant="secondary" />
+          <Heading style={styles.monthTitle}>{getMonthLabel(visibleMonth)}</Heading>
+          <PrimaryButton label="›" onPress={() => setVisibleMonth(addMonthsToMonthKey(visibleMonth, 1))} variant="secondary" />
+        </View>
+        <MonthCalendar
+          monthKey={visibleMonth}
+          events={events}
+          selectedDate={selectedDate}
+          onSelectDate={handleSelectDate}
+        />
+      </Card>
+
+      <Card>
+        <Caption>Dia selecionado</Caption>
+        <Heading>{selectedDate}</Heading>
+        <View style={styles.list}>
+          {selectedDateEvents.length ? (
+            selectedDateEvents.map((event) => (
+              <View key={event.id} style={styles.eventRow}>
+                <Body>{event.title}</Body>
+                <Caption>
+                  {event.type}
+                  {event.source === 'system' ? ' · automático' : ''}
+                </Caption>
+              </View>
+            ))
+          ) : (
+            <Body>Nada marcado neste dia.</Body>
+          )}
+        </View>
+      </Card>
 
       <Card>
         <Heading>{editingId ? 'Editar evento' : 'Novo evento'}</Heading>
@@ -142,7 +194,7 @@ export function CalendarScreen({ baby }: Props) {
         <Caption>Inclui aniversários mensais automáticos.</Caption>
       </View>
 
-      {events.map((event) => (
+      {events.slice(0, 8).map((event) => (
         <Card key={event.id}>
           <Caption>
             {event.date} · {event.type}
@@ -168,6 +220,17 @@ const styles = StyleSheet.create({
   header: {
     gap: spacing.sm,
   },
+  monthHeader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: spacing.md,
+    justifyContent: 'space-between',
+    marginBottom: spacing.md,
+  },
+  monthTitle: {
+    flex: 1,
+    textAlign: 'center',
+  },
   form: {
     gap: spacing.md,
     marginTop: spacing.md,
@@ -177,6 +240,15 @@ const styles = StyleSheet.create({
   },
   sectionHeader: {
     gap: spacing.xs,
+  },
+  list: {
+    gap: spacing.sm,
+    marginTop: spacing.sm,
+  },
+  eventRow: {
+    borderBottomColor: colors.border,
+    borderBottomWidth: 1,
+    paddingBottom: spacing.sm,
   },
   actions: {
     flexDirection: 'row',
