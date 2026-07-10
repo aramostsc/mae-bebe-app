@@ -12,13 +12,10 @@ Mães no pós-parto, mães recentes e famílias que querem organizar rotinas, me
 
 1. Onboarding com perfis da mãe e do bebé.
 2. Dashboard com idade do bebé, tempo desde o parto, dica diária e próximos eventos.
-3. Plano de treino pós-parto por fase.
-4. Nutrição da mãe com sugestões gerais.
-5. Alimentação do bebé por idade em meses.
-6. Calendário interno com eventos editáveis.
-7. Galeria local com fotos e notas.
-8. Dicas por categoria.
-9. Definições, notificações locais e aviso de responsabilidade.
+3. Área de planos com treino pós-parto, nutrição da mãe, alimentação do bebé e dicas.
+4. Calendário interno com eventos editáveis.
+5. Memórias com fotos e notas.
+6. Definições, notificações locais e aviso de responsabilidade.
 
 ## Princípios de produto
 

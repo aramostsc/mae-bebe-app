@@ -72,11 +72,8 @@ export type RootStackParamList = {
 
 export type MainTabParamList = {
   Dashboard: undefined;
-  Treino: undefined;
-  Mae: undefined;
-  Bebe: undefined;
-  Calendario: undefined;
-  Galeria: undefined;
-  Dicas: undefined;
-  Definicoes: undefined;
+  Plans: undefined;
+  Calendar: undefined;
+  Memories: undefined;
+  Settings: undefined;
 };

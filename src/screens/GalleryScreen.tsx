@@ -90,7 +90,7 @@ export function GalleryScreen({ baby }: Props) {
 
   return (
     <Screen>
-      <Title>Galeria do bebé</Title>
+      <Title>Memórias</Title>
       <Card>
         <Heading>Adicionar memória</Heading>
         <View style={styles.form}>

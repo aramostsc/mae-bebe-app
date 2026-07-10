@@ -1,6 +1,7 @@
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 import { Card } from '../components/Card';
 import { PrimaryButton } from '../components/PrimaryButton';
@@ -11,7 +12,6 @@ import { loadEvents } from '../services/eventService';
 import { colors, spacing } from '../theme';
 import { AppProfiles, CalendarEvent, MainTabParamList } from '../types';
 import { differenceInMonths, differenceInWeeks, formatBabyAge, getPostpartumLabel } from '../utils/date';
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
 type Props = {
   profiles: AppProfiles;
@@ -64,7 +64,9 @@ export function DashboardScreen({ profiles }: Props) {
             events.map((event) => (
               <View key={event.id} style={styles.eventRow}>
                 <Body>{event.title}</Body>
-                <Caption>{event.date} · {event.type}</Caption>
+                <Caption>
+                  {event.date} · {event.type}
+                </Caption>
               </View>
             ))
           ) : (
@@ -74,11 +76,9 @@ export function DashboardScreen({ profiles }: Props) {
       </Card>
 
       <View style={styles.quickGrid}>
-        <PrimaryButton label="Treino" onPress={() => navigation.navigate('Treino')} />
-        <PrimaryButton label="Alimentação mãe" onPress={() => navigation.navigate('Mae')} variant="secondary" />
-        <PrimaryButton label="Alimentação bebé" onPress={() => navigation.navigate('Bebe')} variant="secondary" />
-        <PrimaryButton label="Calendário" onPress={() => navigation.navigate('Calendario')} variant="secondary" />
-        <PrimaryButton label="Galeria" onPress={() => navigation.navigate('Galeria')} variant="secondary" />
+        <PrimaryButton label="Ver planos" onPress={() => navigation.navigate('Plans')} />
+        <PrimaryButton label="Abrir agenda" onPress={() => navigation.navigate('Calendar')} variant="secondary" />
+        <PrimaryButton label="Adicionar memórias" onPress={() => navigation.navigate('Memories')} variant="secondary" />
       </View>
 
       <Caption style={styles.disclaimer}>{healthDisclaimer}</Caption>
