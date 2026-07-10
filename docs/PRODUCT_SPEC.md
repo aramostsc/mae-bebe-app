@@ -4,6 +4,8 @@
 
 Criar uma aplicação mobile simples, privada e calma para apoiar mães no pós-parto e no acompanhamento dos primeiros anos do bebé, inicialmente em português de Portugal.
 
+A bússola principal é a mãe inexperiente, sobretudo no primeiro filho: alguém que pode estar feliz, exausta, insegura e emocionalmente sobrecarregada ao mesmo tempo. A app deve funcionar como companheira emocional, assistente prática e organizadora familiar, por esta ordem.
+
 ## Público
 
 Mães no pós-parto, mães recentes e famílias que querem organizar rotinas, memórias, eventos e cuidados gerais.
@@ -20,8 +22,10 @@ Mães no pós-parto, mães recentes e famílias que querem organizar rotinas, me
 ## Princípios de produto
 
 - Privacidade e confiança primeiro.
+- Acolhimento emocional sem linguagem demasiado cheesy.
 - Informação clara, sem promessas médicas absolutas.
 - Interface calma, legível e fácil de usar com uma mão.
+- Redução de carga mental em vez de acumulação de funcionalidades.
 - Conteúdo útil mesmo sem backend.
 - Preparação para cloud, família e integrações futuras.
 
